@@ -6,6 +6,7 @@ function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [filterName, setFilterName] = useState('');
+  const [listFilterNum, setListFilterNum] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,9 +24,17 @@ function PlanetsProvider({ children }) {
     fetchData();
   }, []);
 
-  const values = { planets, headers, filterName, setFilterName };
+  const values = {
+    planets,
+    headers,
+    filterName,
+    setFilterName,
+    listFilterNum,
+    setListFilterNum,
+  };
+
   return (
-    <PlanetsContext.Provider value={ { values } }>
+    <PlanetsContext.Provider value={ values }>
       {children}
     </PlanetsContext.Provider>
   );

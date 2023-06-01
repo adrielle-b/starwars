@@ -2,14 +2,29 @@ import React, { useState, useContext, useEffect } from 'react';
 import PlanetsContext from '../context/planetsContext';
 
 function Table() {
-  const { values: { planets, headers, filterName } } = useContext(PlanetsContext);
+  const { planets, headers, filterName, listFilterNum } = useContext(PlanetsContext);
   const [listPlanets, setListPlanets] = useState(planets);
 
   useEffect(() => {
-    const filtroName = planets
+    const filteredByName = planets
       .filter((planet) => (planet.name).toLowerCase().includes(filterName.toLowerCase()));
-    setListPlanets(filtroName);
-  }, [planets, filterName]);
+
+    const filteredByNumber = filteredByName.filter((planet) => (
+      listFilterNum.every(({ column, comparison, number }) => {
+        const planetIndex = parseFloat(planet[column]);
+        switch (comparison) {
+        case 'maior que':
+          return planetIndex > Number(number);
+        case 'menor que':
+          return planetIndex < Number(number);
+        case 'igual a':
+          return planetIndex === Number(number);
+        default:
+          return false;
+        }
+      })));
+    setListPlanets(filteredByNumber);
+  }, [planets, filterName, listFilterNum]);
 
   return (
     <table>
