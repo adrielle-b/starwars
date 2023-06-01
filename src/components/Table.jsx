@@ -1,50 +1,49 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/planetsContext';
 
 function Table() {
   const { planets, headers, filterName, listFilterNum } = useContext(PlanetsContext);
-  const [listPlanets, setListPlanets] = useState(planets);
 
-  useEffect(() => {
-    const filteredByName = planets
-      .filter((planet) => (planet.name).toLowerCase().includes(filterName.toLowerCase()));
+  const filterComparison = (planet) => listFilterNum
+    .every(({ column, comparison, number }) => {
+      const planetColumn = parseFloat(planet[column]);
 
-    const filteredByNumber = filteredByName.filter((planet) => (
-      listFilterNum.every(({ column, comparison, number }) => {
-        const planetIndex = parseFloat(planet[column]);
-        switch (comparison) {
-        case 'maior que':
-          return planetIndex > Number(number);
-        case 'menor que':
-          return planetIndex < Number(number);
-        case 'igual a':
-          return planetIndex === Number(number);
-        default:
-          return false;
-        }
-      })));
-    setListPlanets(filteredByNumber);
-  }, [planets, filterName, listFilterNum]);
+      switch (comparison) {
+      case 'maior que':
+        return planetColumn > Number(number);
+      case 'menor que':
+        return planetColumn < Number(number);
+      case 'igual a':
+        return planetColumn === Number(number);
+      default:
+        return true;
+      }
+    });
 
   return (
-    <table>
-      <thead>
-        <tr>
-          {headers && headers.map((header) => (
-            <th key={ header }>{header}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {listPlanets && listPlanets.map((planet) => (
-          <tr key={ planet.name }>
-            {(Object.values(planet)).map((info, index) => (
-              <td key={ index }>{info}</td>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            {headers && headers.map((header) => (
+              <th key={ header }>{header}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {planets && planets
+            .filter(({ name }) => name.toLowerCase().includes(filterName.toLowerCase()))
+            .filter(filterComparison)
+            .map((planet) => (
+              <tr key={ planet.name }>
+                {(Object.values(planet)).map((info, index) => (
+                  <td key={ index }>{info}</td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </main>
   );
 }
 

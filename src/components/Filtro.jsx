@@ -3,8 +3,23 @@ import PlanetsContext from '../context/planetsContext';
 
 function Filtro() {
   const { filterName, setFilterName, setListFilterNum } = useContext(PlanetsContext);
+
+  const availableColumns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const availableComparisons = [
+    'maior que',
+    'menor que',
+    'igual a',
+  ];
+
   const [filterNum, setFilterNum] = useState({
-    column: 'population',
+    column: availableColumns[0],
     comparison: 'maior que',
     number: 0,
   });
@@ -45,11 +60,11 @@ function Filtro() {
         value={ filterNum.column }
         onChange={ (event) => handleChange(event) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {availableColumns.map((column, index) => (
+          <option key={ index } value={ column }>
+            {column}
+          </option>
+        ))}
       </select>
 
       <select
@@ -59,9 +74,11 @@ function Filtro() {
         value={ filterNum.comparison }
         onChange={ (event) => handleChange(event) }
       >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
+        {availableComparisons.map((comparison, index) => (
+          <option key={ index } value={ comparison }>
+            {comparison}
+          </option>
+        ))}
       </select>
 
       <label htmlFor="number">
@@ -79,6 +96,7 @@ function Filtro() {
         type="button"
         data-testid="button-filter"
         onClick={ handleClickFilter }
+        disabled={ availableColumns.length === 0 }
       >
         Filtrar
       </button>
