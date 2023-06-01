@@ -20,7 +20,7 @@ function Table() {
       case 'igual a':
         return planetColumn === Number(number);
       default:
-        return false;
+        return true;
       }
     });
 
