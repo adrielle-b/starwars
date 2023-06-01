@@ -6,7 +6,7 @@ function Table() {
 
   const filterComparison = (planet) => listFilterNum
     .every(({ column, comparison, number }) => {
-      const planetColumn = parseFloat(planet[column]);
+      const planetColumn = Number(planet[column]);
 
       switch (comparison) {
       case 'maior que':
@@ -16,34 +16,33 @@ function Table() {
       case 'igual a':
         return planetColumn === Number(number);
       default:
-        return true;
+        return false;
       }
     });
 
   return (
-    <main>
-      <table>
-        <thead>
-          <tr>
-            {headers && headers.map((header) => (
-              <th key={ header }>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {planets && planets
-            .filter(({ name }) => name.toLowerCase().includes(filterName.toLowerCase()))
-            .filter(filterComparison)
-            .map((planet) => (
-              <tr key={ planet.name }>
-                {(Object.values(planet)).map((info, index) => (
-                  <td key={ index }>{info}</td>
-                ))}
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </main>
+    <table>
+      <thead>
+        <tr>
+          {headers && headers.map((header) => (
+            <th key={ header }>{header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {planets && planets
+          .filter(({ name }) => name.toLowerCase().includes(filterName.toLowerCase()))
+          .filter(filterComparison)
+          .map((planet) => (
+            <tr key={ planet.name }>
+              {(Object.values(planet)).map((info, index) => (
+                <td key={ index }>{info}</td>
+              ))}
+            </tr>
+          ))}
+      </tbody>
+    </table>
+
   );
 }
 

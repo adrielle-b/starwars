@@ -2,7 +2,16 @@ import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/planetsContext';
 
 function Filtro() {
-  const { filterName, setFilterName, setListFilterNum } = useContext(PlanetsContext);
+  const { filterName,
+    setFilterName,
+    listFilterNum,
+    setListFilterNum } = useContext(PlanetsContext);
+
+  const [filterNum, setFilterNum] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    number: 0,
+  });
 
   const availableColumns = [
     'population',
@@ -18,12 +27,6 @@ function Filtro() {
     'igual a',
   ];
 
-  const [filterNum, setFilterNum] = useState({
-    column: availableColumns[0],
-    comparison: 'maior que',
-    number: 0,
-  });
-
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setFilterNum((prevState) => ({
@@ -37,6 +40,12 @@ function Filtro() {
       ...prevState,
       filterNum,
     ]));
+
+    setFilterNum({
+      column: availableColumns[0],
+      comparison: 'maior que',
+      number: 0,
+    });
   };
 
   return (
@@ -60,11 +69,14 @@ function Filtro() {
         value={ filterNum.column }
         onChange={ (event) => handleChange(event) }
       >
-        {availableColumns.map((column, index) => (
-          <option key={ index } value={ column }>
-            {column}
-          </option>
-        ))}
+        {availableColumns
+          .filter((columnOption) => !listFilterNum
+            .find(({ column }) => columnOption === column))
+          .map((column, index) => (
+            <option key={ index } value={ column }>
+              {column}
+            </option>
+          ))}
       </select>
 
       <select
