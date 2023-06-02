@@ -69,6 +69,7 @@ describe("6 - Não utilize filtros repetidos", () => {
         });
       });
 
+
     cy.addFilter("diameter", "maior que", "12240");
 
     cy.get("table tr").should("have.length", FILTERED_ROWS_COUNT_DIAMETER);
@@ -77,6 +78,7 @@ describe("6 - Não utilize filtros repetidos", () => {
       .find("option")
       .should((options) => {
         expect(options).to.have.length(allColumnsOptions.length - 1);
+
 
         expect(options).to.not.contain("diameter");
       });
