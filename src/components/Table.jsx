@@ -82,3 +82,5 @@ function Table() {
 }
 
 export default Table;
+
+// conflitos
