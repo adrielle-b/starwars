@@ -2,16 +2,22 @@ import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/planetsContext';
 
 function Filtro() {
-  const { filterName,
+  const { planets,
+    filterName,
     setFilterName,
     listFilterNum,
-    setListFilterNum } = useContext(PlanetsContext);
+    setListFilterNum,
+    setIsOrdered,
+    setPlanetsOrder } = useContext(PlanetsContext);
 
   const [filterNum, setFilterNum] = useState({
     column: 'population',
     comparison: 'maior que',
     number: 0,
   });
+
+  const [columnOrder, setColumnOrder] = useState('');
+  const [order, setOrder] = useState('');
 
   const availableColumns = [
     'population',
@@ -48,69 +54,141 @@ function Filtro() {
     });
   };
 
+  const handleClickOrder = () => {
+    setIsOrdered(true);
+    const negativo = -1;
+    const positivo = 1;
+    const newOrder = planets
+      .sort((planet1, planet2) => {
+        if (planet1[columnOrder] === 'unknown') return positivo;
+        if (planet2[columnOrder] === 'unknown') return negativo;
+        if (order === 'ASC') {
+          return Number(planet1[columnOrder]) - Number(planet2[columnOrder]);
+        } return Number(planet2[columnOrder]) - Number(planet1[columnOrder]);
+      });
+    setPlanetsOrder(newOrder);
+  };
+
   return (
     <div>
-      <label htmlFor="filtroNome">
-        Pesquisar:
-        <input
-          type="text"
-          data-testid="name-filter"
-          name="filtroName"
-          value={ filterName }
-          onChange={ (event) => setFilterName(event.target.value) }
-          placeholder="Digite o nome"
-        />
-      </label>
+      <section>
+        <label htmlFor="filtroNome">
+          Pesquisar:
+          <input
+            type="text"
+            data-testid="name-filter"
+            name="filtroName"
+            value={ filterName }
+            onChange={ (event) => setFilterName(event.target.value) }
+            placeholder="Digite o nome"
+          />
+        </label>
 
-      <select
-        name="column"
-        id="column"
-        data-testid="column-filter"
-        value={ filterNum.column }
-        onChange={ (event) => handleChange(event) }
-      >
-        {availableColumns
-          .filter((columnOption) => !listFilterNum
-            .find(({ column }) => columnOption === column))
-          .map((column, index) => (
+        <select
+          name="column"
+          id="column"
+          data-testid="column-filter"
+          value={ filterNum.column }
+          onChange={ (event) => handleChange(event) }
+        >
+          {availableColumns
+            .filter((columnOption) => !listFilterNum
+              .find(({ column }) => columnOption === column))
+            .map((column, index) => (
+              <option key={ index } value={ column }>
+                {column}
+              </option>
+            ))}
+        </select>
+
+        <select
+          name="comparison"
+          id="comparison"
+          data-testid="comparison-filter"
+          value={ filterNum.comparison }
+          onChange={ (event) => handleChange(event) }
+        >
+          {availableComparisons.map((comparison, index) => (
+            <option key={ index } value={ comparison }>
+              {comparison}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="number">
+          <input
+            type="number"
+            name="number"
+            id="number"
+            data-testid="value-filter"
+            value={ filterNum.number }
+            onChange={ (event) => handleChange(event) }
+          />
+        </label>
+
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleClickFilter }
+          disabled={ availableColumns.length === 0 }
+        >
+          Filtrar
+        </button>
+      </section>
+      <section>
+        <select
+          name="columnOrder"
+          id="columnOrder"
+          data-testid="column-sort"
+          value={ columnOrder }
+          onChange={ (event) => setColumnOrder(event.target.value) }
+        >
+          {availableColumns.map((column, index) => (
             <option key={ index } value={ column }>
               {column}
             </option>
           ))}
-      </select>
-
-      <select
-        name="comparison"
-        id="comparison"
-        data-testid="comparison-filter"
-        value={ filterNum.comparison }
-        onChange={ (event) => handleChange(event) }
-      >
-        {availableComparisons.map((comparison, index) => (
-          <option key={ index } value={ comparison }>
-            {comparison}
-          </option>
-        ))}
-      </select>
-
-      <label htmlFor="number">
-        <input
-          type="number"
-          name="number"
-          id="number"
-          data-testid="value-filter"
-          value={ filterNum.number }
-          onChange={ (event) => handleChange(event) }
-        />
-      </label>
+        </select>
+        <label htmlFor="orderASC">
+          Ascendente
+          <input
+            type="radio"
+            name="orderASC"
+            id="orderASC"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            onChange={ (event) => setOrder(event.target.value) }
+            checked={ order === 'ASC' }
+          />
+        </label>
+        Descendente
+        <label htmlFor="orderDESC">
+          <input
+            type="radio"
+            name="orderDESC"
+            id="orderDESC"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+            onChange={ (event) => setOrder(event.target.value) }
+            checked={ order === 'DESC' }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ handleClickOrder }
+        >
+          Ordenar
+        </button>
+      </section>
 
       <button
         type="button"
-        data-testid="button-filter"
-        onClick={ handleClickFilter }
-        disabled={ availableColumns.length === 0 }
+        disabled={ listFilterNum.length === 0 }
+        onClick={ () => setListFilterNum([]) }
+        data-testid="button-remove-filters"
       >
-        Filtrar
+        Limpar Filtros
       </button>
     </div>
   );

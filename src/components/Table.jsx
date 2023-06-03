@@ -6,7 +6,9 @@ function Table() {
     headers,
     filterName,
     listFilterNum,
-    setListFilterNum } = useContext(PlanetsContext);
+    setListFilterNum,
+    isOrdered,
+    planetsOrder } = useContext(PlanetsContext);
 
   const filterComparison = (planet) => listFilterNum
     .every(({ column, comparison, number }) => {
@@ -46,14 +48,6 @@ function Table() {
             {number}
           </div>
         ))}
-        <button
-          type="button"
-          disabled={ listFilterNum.length === 0 }
-          onClick={ () => setListFilterNum([]) }
-          data-testid="button-remove-filters"
-        >
-          Limpar Filtros
-        </button>
       </div>
       <table>
         <thead>
@@ -64,16 +58,36 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {planets && planets
-            .filter(({ name }) => name.toLowerCase().includes(filterName.toLowerCase()))
-            .filter(filterComparison)
-            .map((planet) => (
-              <tr key={ planet.name }>
-                {(Object.values(planet)).map((info, index) => (
-                  <td key={ index }>{info}</td>
-                ))}
-              </tr>
-            ))}
+          { isOrdered ? (
+            planetsOrder && planetsOrder
+              .filter(({ name }) => name.toLowerCase().includes(filterName.toLowerCase()))
+              .filter(filterComparison)
+              .map((planet) => (
+                <tr key={ planet.name }>
+                  {(Object.values(planet)).map((info, index) => {
+                    if (index === 0) {
+                      return (
+                        <td key={ index } data-testid="planet-name">{info}</td>
+                      );
+                    }
+                    return (
+                      <td key={ index }>{info}</td>
+                    );
+                  })}
+                </tr>
+              ))
+          ) : (
+            planets && planets
+              .filter(({ name }) => name.toLowerCase().includes(filterName.toLowerCase()))
+              .filter(filterComparison)
+              .map((planet) => (
+                <tr key={ planet.name }>
+                  {(Object.values(planet)).map((info, index) => (
+                    <td key={ index }>{info}</td>
+                  ))}
+                </tr>
+              ))
+          )}
         </tbody>
       </table>
     </main>

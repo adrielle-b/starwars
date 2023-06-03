@@ -7,6 +7,8 @@ function PlanetsProvider({ children }) {
   const [headers, setHeaders] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [listFilterNum, setListFilterNum] = useState([]);
+  const [isOrdered, setIsOrdered] = useState(false);
+  const [planetsOrder, setPlanetsOrder] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +33,10 @@ function PlanetsProvider({ children }) {
     setFilterName,
     listFilterNum,
     setListFilterNum,
+    isOrdered,
+    setIsOrdered,
+    planetsOrder,
+    setPlanetsOrder,
   };
 
   return (
