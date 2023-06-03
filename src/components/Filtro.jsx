@@ -16,7 +16,7 @@ function Filtro() {
     number: 0,
   });
 
-  const [columnOrder, setColumnOrder] = useState('');
+  const [columnOrder, setColumnOrder] = useState('population');
   const [order, setOrder] = useState('');
 
   const availableColumns = [
@@ -56,16 +56,24 @@ function Filtro() {
 
   const handleClickOrder = () => {
     setIsOrdered(true);
-    const negativo = -1;
     const positivo = 1;
-    const newOrder = planets
-      .sort((planet1, planet2) => {
-        if (planet1[columnOrder] === 'unknown') return positivo;
-        if (planet2[columnOrder] === 'unknown') return negativo;
-        if (order === 'ASC') {
-          return Number(planet1[columnOrder]) - Number(planet2[columnOrder]);
-        } return Number(planet2[columnOrder]) - Number(planet1[columnOrder]);
-      });
+    const negativo = -1;
+
+    const newOrder = planets.slice().sort((planet1, planet2) => {
+      if (planet1[columnOrder] === 'unknown' && planet2[columnOrder] !== 'unknown') {
+        return negativo; // planet1 deve vir antes de planet2
+      }
+      if (planet1[columnOrder] !== 'unknown' && planet2[columnOrder] === 'unknown') {
+        return positivo; // planet1 deve vir depois de planet2
+      }
+      if (planet1[columnOrder] === 'unknown' && planet2[columnOrder] === 'unknown') {
+        return 0; // mantém a ordem original
+      }
+      if (order === 'ASC') {
+        return Number(planet1[columnOrder]) - Number(planet2[columnOrder]);
+      }
+      return Number(planet2[columnOrder]) - Number(planet1[columnOrder]);
+    });
     setPlanetsOrder(newOrder);
   };
 
