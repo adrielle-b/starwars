@@ -30,9 +30,10 @@ function Table() {
     <main>
       <div>
         {listFilterNum && listFilterNum.map(({ column, comparison, number }, index) => (
-          <div key={ column } data-testid="filter">
+          <div key={ index } data-testid="filter">
             <button
               type="button"
+              data-testid={ `filter-${index}` }
               onClick={ () => {
                 const cloneList = [...listFilterNum];
                 cloneList.splice(index, 1);

@@ -61,10 +61,10 @@ function Filtro() {
 
     const newOrder = planets.slice().sort((planet1, planet2) => {
       if (planet1[columnOrder] === 'unknown' && planet2[columnOrder] !== 'unknown') {
-        return negativo; // planet1 deve vir antes de planet2
+        return positivo; // planet1 deve vir antes de planet2
       }
       if (planet1[columnOrder] !== 'unknown' && planet2[columnOrder] === 'unknown') {
-        return positivo; // planet1 deve vir depois de planet2
+        return negativo; // planet1 deve vir depois de planet2
       }
       if (planet1[columnOrder] === 'unknown' && planet2[columnOrder] === 'unknown') {
         return 0; // mantém a ordem original
