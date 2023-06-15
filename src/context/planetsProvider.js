@@ -9,11 +9,13 @@ function PlanetsProvider({ children }) {
   const [listFilterNum, setListFilterNum] = useState([]);
   const [isOrdered, setIsOrdered] = useState(false);
   const [planetsOrder, setPlanetsOrder] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('https://swapi.dev/api/planets');
       const data = await response.json();
+      setIsLoading(false);
 
       const resultsUpdate = data.results.map((planet) => {
         const { residents, ...rest } = planet;
@@ -37,6 +39,7 @@ function PlanetsProvider({ children }) {
     setIsOrdered,
     planetsOrder,
     setPlanetsOrder,
+    isLoading,
   };
 
   return (

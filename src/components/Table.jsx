@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/planetsContext';
+import './table.css';
 
 function Table() {
   const { planets,
@@ -8,7 +9,8 @@ function Table() {
     listFilterNum,
     setListFilterNum,
     isOrdered,
-    planetsOrder } = useContext(PlanetsContext);
+    planetsOrder,
+    isLoading } = useContext(PlanetsContext);
 
   const filterComparison = (planet) => listFilterNum
     .every(({ column, comparison, number }) => {
@@ -27,8 +29,9 @@ function Table() {
     });
 
   return (
-    <main>
-      <div>
+    <>
+      {isLoading && <h2>Loading...</h2>}
+      <div className="filter-container">
         {listFilterNum && listFilterNum.map(({ column, comparison, number }, index) => (
           <div key={ index } data-testid="filter">
             <button
@@ -91,7 +94,7 @@ function Table() {
           )}
         </tbody>
       </table>
-    </main>
+    </>
 
   );
 }

@@ -1,0 +1,67 @@
+table {
+  background-color: rgba(0, 0, 0, 0.685);
+}
+
+th {
+  background-color: #f9c846;
+  border-radius: 5px;
+  color: black;
+  font-size: 18px;
+  font-weight: 700;
+  height: 40px;
+  padding: 5px;
+}
+
+td {
+  border-bottom: 1px solid #f9c846;
+  font-weight: 500;
+  height: 60px;
+  max-width: 200px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+h2 {
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+  animation-name: blink;
+  background-color: rgba(0, 0, 0, 0.685);
+  text-align: center;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.filter-container > div {
+  background-color: #f7d168;
+  border-radius: 5px;
+  color: black;
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+.filter-container button {
+  background-color: transparent;
+  border: none;
+  color: rgba(0, 0, 0, 0.541);
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+@keyframes blink {
+
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

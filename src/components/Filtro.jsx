@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/planetsContext';
+import './filtro.css';
 
 function Filtro() {
   const { planets,
@@ -78,11 +79,12 @@ function Filtro() {
   };
 
   return (
-    <div>
+    <div className="container">
       <section>
         <label htmlFor="filtroNome">
           Pesquisar:
           <input
+            className="text-number"
             type="text"
             data-testid="name-filter"
             name="filtroName"
@@ -125,6 +127,7 @@ function Filtro() {
 
         <label htmlFor="number">
           <input
+            className="text-number"
             type="number"
             name="number"
             id="number"
@@ -144,19 +147,22 @@ function Filtro() {
         </button>
       </section>
       <section>
-        <select
-          name="columnOrder"
-          id="columnOrder"
-          data-testid="column-sort"
-          value={ columnOrder }
-          onChange={ (event) => setColumnOrder(event.target.value) }
-        >
-          {availableColumns.map((column, index) => (
-            <option key={ index } value={ column }>
-              {column}
-            </option>
-          ))}
-        </select>
+        <label htmlFor="columnOrder">
+          Ordene:
+          <select
+            name="columnOrder"
+            id="columnOrder"
+            data-testid="column-sort"
+            value={ columnOrder }
+            onChange={ (event) => setColumnOrder(event.target.value) }
+          >
+            {availableColumns.map((column, index) => (
+              <option key={ index } value={ column }>
+                {column}
+              </option>
+            ))}
+          </select>
+        </label>
         <label htmlFor="orderASC">
           Ascendente
           <input
@@ -191,6 +197,7 @@ function Filtro() {
       </section>
 
       <button
+        className="buttonClear"
         type="button"
         disabled={ listFilterNum.length === 0 }
         onClick={ () => setListFilterNum([]) }

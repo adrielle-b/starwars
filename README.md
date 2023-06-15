@@ -1,10 +1,11 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+<div align="center">
+
+# Projeto Star Wars Trybe
+
+Um projeto de apenas uma página que pude praticar lógica de filtros. Esse projeto é sobre uma tabela de planetas que aplico diversos filtros.
+
+Para contrução, usei a api de planetas e pratiquei conhecimentos em React js, Hooks, Context, Testes e CSS.
+
+![image](./src/tela_loading.png)
+![image](./src/tela_main.png)
+![image](./src/tela_filtros.png)
