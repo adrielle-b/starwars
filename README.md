@@ -7,5 +7,7 @@ Um projeto de apenas uma página que pude praticar lógica de filtros. Esse proj
 Para construção, usei a api de planetas e pratiquei conhecimentos em React js, Hooks, Context, Testes e CSS.
 
 ![image](./src/loading.png)
+  
 ![image](./src/main.png)
+  
 ![image](./src/filter.png)
